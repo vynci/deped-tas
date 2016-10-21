@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Deped Logging System</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -19,6 +19,11 @@
     <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="bower_components/angular-datepicker/dist/angular-datepicker.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="bower_components/ngTimepicker/src/css/ngTimepicker.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/ez-timepicker/dist/ez-timepicker.min.css">
+    <link rel="stylesheet" href="bower_components/ng-responsive-calendar/dist/css/calendar.css"/>
+
     <!-- endbuild -->
 
     <!-- build:js(.) scripts/vendor.js -->
@@ -38,24 +43,29 @@
     <script src="bower_components/angular-modal-service/dst/angular-modal-service.js"></script>
     <script src="bower_components/parse-1.6.14.js"></script>
     <script src="bower_components/angular-bootstrap-file-field/src/angular-bootstrap-file-field.js"></script>
+    <script src="bower_components/angular-datepicker/dist/angular-datepicker.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
+    <script src="bower_components/ngTimepicker/src/js/ngTimepicker.min.js"></script>
+    <script src="bower_components/ez-timepicker/dist/ez-timepicker.min.js"></script>
+    <script src="bower_components/ez-timepicker/dist/ez-timepicker-tpls.js"></script>
+    <script src="bower_components/ng-responsive-calendar/dist/js/calendar-tpls.min.js"></script>
+    <script src="bower_components/ng-lodash/build/ng-lodash.min.js"></script>
+
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="js/sb-admin-2.js"></script>
+        <script src="js/socket.js"></script>
+        <script src="js/socket.io.js"></script>
+
+        <script src="js/ng-pdfviewer.js"></script>
+        <script src="js/pdf.compat.js"></script>
+        <script src="js/pdf.js"></script>
     <!-- endbuild -->
 
-
-
-    <script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>
     <!-- Custom CSS -->
 
     <!-- Custom Fonts -->

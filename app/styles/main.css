@@ -3,6 +3,34 @@ body {
     padding-bottom: 20px;
 }
 
+/*.small{
+  font-size: 75% !important;
+}*/
+
+.logBlockGood {
+  background : none;
+}
+
+.logBlockBad {
+  background : #d9534f;
+}
+
+.undertimeTrue {
+  background : #f0ad4e;
+}
+
+.undertimeFalse {
+  background : none;
+}
+
+.public-clock-time {
+  font-size: 6em;
+}
+
+.public-clock-date {
+  font-size: 3em;
+}
+
 textarea, input {
   padding:10px;
   font-family: FontAwesome, "Open Sans", Verdana, sans-serif;
@@ -12,7 +40,7 @@ textarea, input {
 }
 
 tr.noBorder td {
-  border: 0 !Important; 
+  border: 0 !Important;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -45,7 +73,9 @@ tr.noBorder td {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 1366px;
+    width: 1365px !important;
+    height: 768px !important;
   }
 }
 .container-narrow > hr {

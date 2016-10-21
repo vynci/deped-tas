@@ -7,8 +7,8 @@
  *
  * Main module of the application.
  */
-Parse.initialize("123", "laserblackdog");
-Parse.serverURL = 'http://localhost:1337/parse';
+Parse.initialize("myAppId", "myAppId", "myMasterKey");
+Parse.serverURL = 'http://172.24.1.1:1337/parse';
 
 var app = angular
   .module('sbAdminApp', [
@@ -18,7 +18,14 @@ var app = angular
     'angular-loading-bar',
     'smart-table',
     'angularModalService',
-    'bootstrap.fileField'
+    'bootstrap.fileField',
+    'btford.socket-io',
+    'datePicker',
+    'jkuri.timepicker',
+    'ez.timepicker',
+    'ui.rCalendar',
+    'ngLodash',
+    'ngPDFViewer'
   ]);
 
 
@@ -45,7 +52,10 @@ var app = angular
                     'scripts/directives/header/header-notification/header-notification.js',
                     'scripts/directives/sidebar/sidebar.js',
                     'scripts/directives/sidebar/sidebar-search/sidebar-search.js',
-                    'scripts/services/employeeService.js'
+                    'scripts/services/employeeService.js',
+                    'scripts/services/dailyLogService.js',
+                    'scripts/services/socketService.js',
+                    'scripts/services/settingsService.js'
                     ]
                 }),
                 $ocLazyLoad.load(
@@ -96,15 +106,31 @@ var app = angular
               'scripts/directives/timeline/timeline.js',
               'scripts/directives/notifications/notifications.js',
               'scripts/directives/chat/chat.js',
-              'scripts/directives/dashboard/stats/stats.js'
+              'scripts/directives/dashboard/stats/stats.js',
+              'scripts/services/settingsService.js',
               ]
             })
           }
         }
       })
       .state('dashboard.form',{
-        templateUrl:'views/form.html',
-        url:'/form'
+        templateUrl:'views/settings.html',
+        url:'/settings',
+        controller: 'SettingsCtrl',
+        resolve: {
+          loadMyFiles:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'sbAdminApp',
+              files:[
+              'scripts/controllers/settings.js',
+              'scripts/services/employeeService.js',
+              'scripts/services/dailyLogService.js',
+              'scripts/services/socketService.js',
+              'scripts/services/settingsService.js',
+              ]
+            })
+          }
+        }
     })
       .state('dashboard.blank',{
         templateUrl:'views/pages/blank.html',
@@ -119,11 +145,52 @@ var app = angular
             return $ocLazyLoad.load({
               name:'sbAdminApp',
               files:[
-                'scripts/controllers/login.js'
+                'scripts/controllers/login.js',
+                'scripts/services/settingsService.js',
               ]
             })
           }
         }
+    })
+
+    .state('config',{
+      templateUrl:'views/pages/config.html',
+      controller: 'ConfigCtrl',
+      url:'/config',
+      resolve: {
+        loadMyFiles:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name:'sbAdminApp',
+            files:[
+              'scripts/controllers/config.js',
+              'scripts/services/employeeService.js',
+              'scripts/services/dailyLogService.js',
+              'scripts/services/socketService.js',
+              'scripts/services/settingsService.js',
+            ]
+          })
+        }
+      }
+    })
+
+    .state('public',{
+      templateUrl:'views/pages/public.html',
+      controller: 'PublicCtrl',
+      url:'/public',
+      resolve: {
+        loadMyFiles:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name:'sbAdminApp',
+            files:[
+              'scripts/controllers/public.js',
+              'scripts/services/employeeService.js',
+              'scripts/services/dailyLogService.js',
+              'scripts/services/socketService.js',
+              'scripts/services/settingsService.js',
+            ]
+          })
+        }
+      }
     })
       .state('dashboard.chart',{
         templateUrl:'views/chart.html',
@@ -140,14 +207,102 @@ var app = angular
             }),
             $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/chartContoller.js']
+                files:[
+                'scripts/controllers/chartContoller.js',
+                'scripts/services/settingsService.js'
+                ]
             })
           }
         }
     })
+    .state('guide',{
+      templateUrl:'views/guide.html',
+      url:'/guide',
+      controller:'GuideCtrl',
+      resolve: {
+        loadMyFile:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name:'guide.js',
+            files:[
+            'bower_components/angular-chart.js/dist/angular-chart.min.js',
+            'bower_components/angular-chart.js/dist/angular-chart.css',
+            'js/ng-pdfviewer.js',
+            'js/pdf.compat.js',
+            'js/pdf.js'
+            ]
+          }),
+          $ocLazyLoad.load({
+            name:'sbAdminApp',
+            files:[
+            'scripts/controllers/guide.js',
+            'scripts/services/settingsService.js'
+            ]
+          })
+        }
+      }
+    })
       .state('dashboard.table',{
         templateUrl:'views/table.html',
-        url:'/table'
+        url:'/report',
+        controller:'ReportCtrl',
+        resolve: {
+          loadMyFiles:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'sbAdminApp',
+              files:[
+              'scripts/controllers/report.js',
+              'scripts/services/employeeService.js',
+              'scripts/services/dailyLogService.js',
+              'scripts/services/periodLogService.js',
+              'scripts/services/settingsService.js',
+              'scripts/services/socketService.js',
+              'scripts/services/holidayService.js'
+              ]
+            })
+          }
+        }
+    })
+    .state('dashboard.logs',{
+      templateUrl:'views/logs.html',
+      url:'/logs',
+      controller:'LogsCtrl',
+      resolve: {
+        loadMyFiles:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name:'sbAdminApp',
+            files:[
+              'scripts/controllers/logs.js',
+              'scripts/services/employeeService.js',
+              'scripts/services/dailyLogService.js',
+              'scripts/services/periodLogService.js',
+              'scripts/services/settingsService.js',
+              'scripts/services/socketService.js',
+              'scripts/services/holidayService.js'
+            ]
+          })
+        }
+      }
+    })
+    .state('dashboard.calendar',{
+      templateUrl:'views/calendar.html',
+      url:'/calendar',
+      controller:'CalendarCtrl',
+      resolve: {
+        loadMyFiles:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name:'sbAdminApp',
+            files:[
+            'scripts/controllers/calendar.js',
+            'scripts/services/employeeService.js',
+            'scripts/services/dailyLogService.js',
+            'scripts/services/periodLogService.js',
+            'scripts/services/settingsService.js',
+            'scripts/services/socketService.js',
+            'scripts/services/holidayService.js'
+            ]
+          })
+        }
+      }
     })
       .state('dashboard.panels-wells',{
           templateUrl:'views/ui-elements/panels-wells.html',

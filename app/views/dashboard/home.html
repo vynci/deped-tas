@@ -8,10 +8,10 @@
     <!-- /.row -->
     <div class="row">
 
-        <stats number="6" comments="New Users" colour="primary" type="user"></stats>
-        <stats number="12" comments="Currently Checked-In" colour="green" type="sign-in"></stats>
-        <stats number="18" comments="Currently Checked-Out" colour="yellow" type="sign-out"></stats>
-        <stats number="24" comments="Late Users" colour="red" type="times-circle"></stats>
+        <stats number="{{count.newUsers}}" comments="Users" ng-click="notifications.newUsers()" colour="primary" type="user"></stats>
+        <stats number="{{count.checkIn}}" ng-click="notifications.checkIn()" comments="Currently Checked-In" colour="green" type="sign-in" data-toggle="modal" data-target="#myModal"></stats>
+        <stats number="{{count.checkOut}}" ng-click="notifications.checkout()" comments="Currently Checked-Out" colour="yellow" type="sign-out" data-toggle="modal" data-target="#myModal"></stats>
+        <stats number="{{count.late}}" ng-click="notifications.lateUsers()" comments="Late Users" colour="red" type="clock-o" data-toggle="modal" data-target="#myModal"></stats>
 
     </div>
 
@@ -34,148 +34,74 @@
                       <th>Time</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr class="odd gradeX">
-                      <td>002</td>
-                      <td>John Doe</td>
-                      <td>Teacher</td>
-                      <td>7:28 - Check In</td>
+                    <tr ng-repeat="row in displayedCollection">
+                      <td>{{row.attributes.idNumber}}</td>
+                      <td>{{row.attributes.firstName}} {{row.attributes.lastName}}</td>
+                      <td>{{row.attributes.position}}</td>
+                      <td>{{row.attributes.time}}</td>
                     </tr>
-                    <tr class="even gradeC">
-                      <td>121</td>
-                      <td>Eduardo	Riley</td>
-                      <td>Teacher</td>
-                      <td>7:30 - Check In</td>
-                    </tr>
-                    <tr class="odd gradeA">
-                      <td>053</td>
-                      <td>Dolores	Moody</td>
-                      <td>Teacher</td>
-                      <td>7:31 - Check In</td>
-                    </tr>
-                    <tr class="even gradeA">
-                      <td>022</td>
-                      <td>Kelli	Allison</td>
-                      <td>Teacher</td>
-                      <td>7:33 - Check In</td>
-                    </tr>
-                    <tr class="odd gradeA">
-                      <td>041</td>
-                      <td>Nicolas	Mcbride</td>
-                      <td>Teacher</td>
-                      <td>7:33 - Check In</td>
-                    </tr>
-                    <tr class="even gradeA">
-                      <td>032</td>
-                      <td>Tricia	Lindsey</td>
-                      <td>Teacher</td>
-                      <td>7:35 - Check In</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>027</td>
-                      <td>Dana	Patton</td>
-                      <td>Teacher</td>
-                      <td>7:38 - Check In</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>019</td>
-                      <td>Angel	Garcia</td>
-                      <td>Teacher</td>
-                      <td>7:38 - Check In</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>007</td>
-                      <td>Melba	Taylor</td>
-                      <td>Teacher</td>
-                      <td>7:40 - Check In</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>009</td>
-                      <td>Kathleen	Fernandez</td>
-                      <td>Teacher</td>
-                      <td>7:41 - Check In</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>014</td>
-                      <td>Pete	Gregory</td>
-                      <td>Teacher</td>
-                      <td>7:45 - Check In</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>076</td>
-                      <td>Tricia	Lindsey</td>
-                      <td>Teacher</td>
-                      <td>11:31 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>092</td>
-                      <td>Nicolas	Mcbride</td>
-                      <td>Teacher</td>
-                      <td>11:34 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>064</td>
-                      <td>Kelli	Allison</td>
-                      <td>Teacher</td>
-                      <td>11:36 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>052</td>
-                      <td>Dolores	Moody</td>
-                      <td>Teacher</td>
-                      <td>11:38 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>049</td>
-                      <td>Eduardo	Riley</td>
-                      <td>Teacher</td>
-                      <td>11:41 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>143</td>
-                      <td>Dana Patton</td>
-                      <td>Teacher</td>
-                      <td>11:42 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>192</td>
-                      <td>Angel	Garcia</td>
-                      <td>Teacher</td>
-                      <td>11:44 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>112</td>
-                      <td>Melba	Taylor</td>
-                      <td>Teacher</td>
-                      <td>11:47 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>125</td>
-                      <td>Kathleen	Fernandez</td>
-                      <td>Teacher</td>
-                      <td>11:47 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>077</td>
-                      <td>Pete	Gregory</td>
-                      <td>Teacher</td>
-                      <td>11:52 - Check Out</td>
-                    </tr>
-                    <tr class="gradeA">
-                      <td>002</td>
-                      <td>John Doe</td>
-                      <td>Teacher</td>
-                      <td>11:53 - Check Out</td>
-                    </tr>
-
                   </tbody>
                 </table>
               </div>
             <!-- /.panel -->
-        </div>
+            </div>
         <!-- /.col-lg-8 -->
 
         <!-- /.col-lg-4 -->
+          </div>
+        </div>
     </div>
     <!-- /.row -->
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{modal.title}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                Daily Log
+              </div>
+              <!-- /.panel-heading -->
+              <div class="panel-body">
+                <div class="dataTable_wrapper">
+                  <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th ng-hide="isTimeColumnHide">Time</th>
+                      </tr>
+                    </thead>
+                    <tr ng-repeat="row in modal.body">
+                      <td>{{row.attributes.idNumber}}</td>
+                      <td>{{row.attributes.firstName}} {{row.attributes.lastName}}</td>
+                      <td>{{row.attributes.position}}</td>
+                      <td ng-hide="isTimeColumnHide">{{row.attributes.time}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" ng-click="closeModal()" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
 </div>

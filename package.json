@@ -5,7 +5,9 @@
     "type": "git",
     "url": "https://github.com/start-angular/sb-admin-angular"
   },
-  "dependencies": {},
+  "dependencies": {
+    "angular-bootstrap-datetimepicker": "^1.0.1"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",

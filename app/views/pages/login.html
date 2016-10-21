@@ -1,12 +1,12 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-4 col-md-offset-4">
             <div class="login-panel panel panel-default">
                 <!-- <div class="panel-heading">
                     <h3 class="panel-title">Please Sign In</h3>
                 </div> -->
                 <div class="panel-body">
-                  <img src="img/logo/deped-logo.jpg" style="width: 100%">
+                  <img ng-src="{{primaryPhoto}}" style="width: 100%">
                   <br>
                   <br>
                     <form role="form">
@@ -17,17 +17,58 @@
                             <div class="form-group">
                                 <input class="form-control" ng-model="currentUser.password" placeholder="Password" name="password" type="password" value="">
                             </div>
-                            <div class="checkbox">
+                            <!-- <div class="checkbox">
                                 <label>
                                     <input name="remember" type="checkbox" value="Remember Me">Remember Me
                                 </label>
-                            </div>
+                            </div> -->
                             <!-- Change this to a button or input when using this as a form -->
                             <a ng-click="login()" class="btn btn-lg btn-success btn-block">Login</a>
+                            <br>
+                            <div class="text-center">
+                              <a data-toggle="modal" data-target="#myModal">Forgot Password?</a>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
+
             </div>
+
+            <br>
+            <div class="text-center"><a ui-sref="public">Go to Public Dashboard (Kiosk)</a></div>
+            <br>
+
+            <div class="text-center">version {{applicationVersion}} <a ui-sref="guide" ng-style="sideBarColor.text">(Help)</a></div>
+
         </div>
     </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Forgot Password</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input class="form-control" ng-model="productId" placeholder="Enter Product Id (This is located on your product manual)" autofocus>
+        </div>
+        <div>
+          <b>{{passwordResetStatus}}</b>
+        </div>
+
+        <br>
+        <a ng-click="submitProductId()" class="btn btn-lg btn-primary btn-block">Send</a>
+      </div>
+    <div class="modal-footer">
+
+      <button type="button" ng-click="closeModal()" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+
+</div>
 </div>

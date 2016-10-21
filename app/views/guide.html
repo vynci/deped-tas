@@ -1,0 +1,30 @@
+<div class="text-center container">
+  <div class="row">
+    <div class="btn-group">
+      <button class="btn btn-default" ng-click="prevPage()">&lt;</button>
+
+      <button class="btn btn-default" ng-click="zoomIn()">+</button>
+      <button class="btn btn-default" ng-click="zoomOut()">-</button>
+
+      <button class="btn btn-default" ng-click="nextPage()">&gt;</button>
+    </div>
+  </div>
+  <br>
+
+  <div class="row" ng-hide="isFirstBoot">
+    <div class="btn-group">
+      <a ui-sref="dashboard.home" class="btn btn-primary">Home</a>
+    </div>
+  </div>
+
+  <div class="row" ng-show="isFirstBoot && isShowConfirm">
+    <div class="btn-group">
+      <a ng-click="agree()" class="btn btn-primary">I have read the manual, continue to the application</a>
+    </div>
+  </div>
+
+  <div class="row">
+    <pdfviewer src="{{pdfURL}}" on-page-load='pageLoaded(page,total)' id="viewer" load-progress='loadProgress(loaded, total, state)' current-page='currentPage(num)'></pdfviewer>
+  </div>
+
+</div>

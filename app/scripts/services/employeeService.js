@@ -18,11 +18,36 @@ app.service('employeeService', function($q) {
 		return defer.promise;
 	};
 
-	var getEmployees = function(){
+	var getEmployees = function(sort, limit){
 		var defer = $q.defer();
 		var EmployeeObject = Parse.Object.extend("Employee");
 		var query = new Parse.Query(EmployeeObject);
-		// query.equalTo("name", 'Blueberry Apple');
+
+		if(sort){
+			query.ascending(sort);
+		}
+
+		if(limit){
+			query.limit(limit);
+		}
+		query.find({
+			success: function(results) {
+				console.log(results);
+				defer.resolve(results);
+			},
+			error: function(error) {
+				defer.reject(error);
+				alert("Error: " + error.code + " " + error.message);
+			}
+		});
+		return defer.promise;
+	};
+
+	var getEmployeeByFingerPrintId = function(id) {
+		var defer = $q.defer();
+		var EmployeeObject = Parse.Object.extend("Employee");
+		var query = new Parse.Query(EmployeeObject);
+		query.equalTo("fingerPrintId", id);
 		query.find({
 			success: function(results) {
 				console.log(results);
@@ -38,7 +63,8 @@ app.service('employeeService', function($q) {
 
 	return {
 		getEmployee: getEmployee,
-		getEmployees: getEmployees
+		getEmployees: getEmployees,
+		getEmployeeByFingerPrintId : getEmployeeByFingerPrintId
 	};
 
 });
