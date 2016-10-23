@@ -236,6 +236,64 @@ angular.module('sbAdminApp')
 
     }
 
+    $scope.manualDeleteUserFromSensor = function(){
+      console.log($scope.detectedFingerPrintId);
+
+      employeeService.getEmployeeByFingerPrintId($scope.detectedFingerPrintId)
+      .then(function(result) {
+        // Handle the result
+
+        var detectedEmployee = result[0];
+
+        var Settings = Parse.Object.extend("Settings");
+        var settings = new Settings();
+
+        settings.id = settingId;
+
+        fingerPrintIdPool.push(parseInt($scope.detectedFingerPrintId));
+
+        settings.set("fingerPrintIdPool", fingerPrintIdPool);
+
+        console.log(fingerPrintIdPool);
+
+        settings.save(null, {
+          success: function(result) {
+            getSettings();
+            idToBeDeleted = parseInt($scope.detectedFingerPrintId);
+            socket.emit('toPublicServer', 'm:delete');
+
+          },
+          error: function(gameScore, error) {
+            // Execute any logic that should take place if the save fails.
+            // error is a Parse.Error with an error code and message.
+          }
+        });
+
+        if(result.length){
+          var detectedEmployee = result[0];
+          detectedEmployee.set("fingerPrintId", "");
+
+          detectedEmployee.save(null, {
+            success: function(result) {
+
+            },
+            error: function(gameScore, error) {
+              // Execute any logic that should take place if the save fails.
+              // error is a Parse.Error with an error code and message.
+            }
+          });
+        }
+
+      }, function(err) {
+        // Error occurred
+        console.log(err);
+      }, function(percentComplete) {
+        console.log(percentComplete);
+      });
+
+
+    }
+
     $scope.deleteUser = function(){
 
         console.log(parseInt(currentEmployee.get('fingerPrintId')));
@@ -467,29 +525,37 @@ angular.module('sbAdminApp')
       console.log('Delete Old FingerPrint');
       $scope.isCurrentFingerDeleted = false;
       idToBeDeleted = $scope.user.fingerPrintId;
+      console.log(idToBeDeleted);
 
-      var Settings = Parse.Object.extend("Settings");
-      var settings = new Settings();
+      if(idToBeDeleted){
+        console.log('not empty');
+        var Settings = Parse.Object.extend("Settings");
+        var settings = new Settings();
 
-      settings.id = settingId;
+        settings.id = settingId;
 
-      fingerPrintIdPool.push(parseInt(idToBeDeleted));
+        fingerPrintIdPool.push(parseInt(idToBeDeleted));
 
-      settings.set("fingerPrintIdPool", fingerPrintIdPool);
+        settings.set("fingerPrintIdPool", fingerPrintIdPool);
 
-      settings.save(null, {
-        success: function(result) {
-          // Execute any logic that should take place after the object is saved.
-          $scope.userTableResult = [];
-          getSettings();
-          socket.emit('toPublicServer', 'm:delete');
+        settings.save(null, {
+          success: function(result) {
+            // Execute any logic that should take place after the object is saved.
+            $scope.userTableResult = [];
+            getSettings();
+            socket.emit('toPublicServer', 'm:delete');
 
-        },
-        error: function(gameScore, error) {
-          // Execute any logic that should take place if the save fails.
-          // error is a Parse.Error with an error code and message.
-        }
-      });
+          },
+          error: function(gameScore, error) {
+            // Execute any logic that should take place if the save fails.
+            // error is a Parse.Error with an error code and message.
+          }
+        });
+      } else {
+        $scope.isCurrentFingerDeleted = true;
+        $scope.scanStatus = 'Click to Continue';
+        $scope.buttonScanStatus = 'btn-success';
+      }
     }
 
     $scope.updateFingerPrintGo = function(){
@@ -514,7 +580,7 @@ angular.module('sbAdminApp')
       if(stringContains(data, 'Deleted!')){
         $scope.isCurrentFingerDeleted = true;
         socket.emit('toPublicServer', idToBeDeleted.toString());
-        $scope.scanStatus = 'Continue';
+        $scope.scanStatus = 'Click to Continue';
         $scope.buttonScanStatus = 'btn-success';
       }
 
@@ -546,6 +612,14 @@ angular.module('sbAdminApp')
         $scope.scanStatus = 'Prints Not Matched.';
         alert('Prints Not Matched. Please Try Again.');
         socket.emit('toPublicServer', tmp.toString());
+      }
+
+      if(stringContains(data, 'found:')){
+        console.log(tmp);
+        var tmpData = data;
+        tmpData = tmpData.split(":");
+        $scope.isDetectedFingerPrint = true;
+        $scope.detectedFingerPrintId = tmpData[1].toString();
       }
 
     });

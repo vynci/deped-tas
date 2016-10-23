@@ -231,6 +231,17 @@ angular.module('sbAdminApp')
     $scope.changeReportRow = function(data){
       console.log(data.id);
       console.log(data.attributes);
+
+      $scope.secondaryPasswordResponse = '';
+      $scope.secondaryPasswordResponseClass = '';
+      $scope.secondaryPasswordCredential = '************';
+
+      if($scope.isSecondaryPassword){
+        $scope.disableEdit = true;
+      }else{
+        $scope.disableEdit = false;
+      }
+
       $scope.deleteConfirmation = false;
       $scope.showDeleteButton = true;
       $scope.currentPeriodLog = {
@@ -306,6 +317,18 @@ angular.module('sbAdminApp')
       $scope.newReportData.extraLogPool.splice(index, 1);
     }
 
+    $scope.authorizeSecondaryPassword = function(){
+      if($scope.secondaryPasswordCredential === $scope.secondaryPassword){
+        $scope.disableEdit = false;
+        $scope.secondaryPasswordResponse = 'Secondary Password Authentication Successful.';
+        $scope.secondaryPasswordResponseClass = 'alert-success';
+      } else {
+        $scope.disableEdit = true;
+        $scope.secondaryPasswordResponseClass = 'alert-danger';
+        $scope.secondaryPasswordResponse = 'Secondary Password Authentication Failed, Invalid Password.'
+      }
+    }
+
     getAllEmployees();
 
     function getAllEmployees(sort){
@@ -343,6 +366,16 @@ angular.module('sbAdminApp')
 
         $scope.inCharge = $scope.settings.get('inCharge');
         $scope.isShowTotalTime = $scope.settings.get('isShowTotalTime');
+
+        $scope.disableEdit = false;
+        $scope.secondaryPassword = $scope.settings.get('secondaryPassword');
+
+        $scope.isSecondaryPassword = $scope.settings.get('isSecondaryPassword');
+
+        if($scope.isSecondaryPassword){
+          $scope.disableEdit = true;
+        }
+
         console.log($scope.inCharge);
 
       }, function(err) {

@@ -10,7 +10,19 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        User List
+
+        <div class="row">
+          <div class="col-xs-6 col-md-6 col-lg-6">
+            User List
+          </div>
+          <div class="col-xs-6 col-md-6 col-lg-6" style="text-align:right;">
+            <button type="button" ng-click="isDetectedFingerPrint = false; detectedFingerPrintId = ''; manualDeleteConfirmation = false;" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#userSettingsModal">
+              <i class="fa fa-dot-circle-o">
+              </i>
+            </button>
+          </div>
+        </div>
+
       </div>
       <!-- Single button -->
       <div class="panel-body">
@@ -82,6 +94,41 @@
   <!-- /.col-lg-12 -->
 </div>
 
+<div id="userSettingsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><b>Finger Print Sensor: Manual Delete Override</b></h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-danger" style="text-align: justify;">This option manually deletes the fingerprint ID entry in the sensor's internal memory.
+          However this won't delete the user's profile, and corresponding logs. Please proceed with caution, and admin assistance.</p>
+        <hr>
+        <h4>Detected Finger Print Id: <b>{{detectedFingerPrintId || 'No Finger Print Detected...'}}</b></h4><br>
+        <button type="button" ng-show="isDetectedFingerPrint" ng-disabled="manualDeleteConfirmation" ng-click="manualDeleteConfirmation = true;" class="btn btn-danger btn-block">Delete Detected Finger Print</button>
+        <br><br>
+        <div ng-show="manualDeleteConfirmation" style="text-align: right;">
+          <p class="text-warning" style="text-align: justify;">WARNING: This will delete the finger print record in the scanner, you can however update the finger print identifcation in "Edit User Button" of the designated User.</p>
+          <button type="button" ng-click="manualDeleteUserFromSensor()" class="btn btn-danger" data-dismiss="modal">Continue Delete</button>
+          <button type="button" ng-click="manualDeleteConfirmation = false;" class="btn btn-default">Cancel</button>
+        </div>
+      </div>
+
+
+
+      <div class="modal-footer">
+
+
+        <button type="button" ng-click="closeModal()" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -96,7 +143,7 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="form-group">
-              <label>Id</label>
+              <label>Employee Id</label>
               <input class="form-control" placeholder="Ex: U-001" ng-model="user.employeeId">
             </div>
             <div class="form-group">
@@ -150,7 +197,7 @@
               <br>
             </div>
             <div class="form-group" ng-show="modal.isUpdate">
-              <label>Finger Print Id: </label> <label class="text-danger" ng-if="buttonScanStatus != 'btn-success'">00{{user.fingerPrintId}}</label>
+              <label>Finger Print Id: </label> <label class="text-danger" ng-if="buttonScanStatus != 'btn-success'">{{user.fingerPrintId || 'n/a'}}</label>
               <br>
               <button type="button" ng-hide="isCurrentFingerDeleted" ng-click="updateFingerPrintInit()" ng-class="buttonScanStatus" class="btn btn-block">{{scanStatus}}</button>
               <button type="button" ng-show="isCurrentFingerDeleted" ng-click="updateFingerPrintGo()" ng-class="buttonScanStatus" class="btn btn-block">{{scanStatus}}</button>
@@ -162,7 +209,7 @@
       </div>
       <div class="modal-footer">
         <div ng-show="deleteConfirmation">
-          <p class="text-danger">WARNING: This will permanently delete the user.</p>
+          <p class="text-danger">WARNING: This will permanently delete the user, along with its corresponding data logs.</p>
           <button type="button" ng-click="deleteUser()" class="btn btn-danger" data-dismiss="modal">Ok</button>
           <button type="button" ng-click="cancelDelete()" class="btn btn-default">Cancel</button>
           <br><br>

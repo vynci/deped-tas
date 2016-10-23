@@ -112,7 +112,7 @@
                   <div class="text-center">-----o0o-----</div>
                   <div class="text-center" style="border-bottom: 1px solid; height: 20px;"><p>{{batchReport.name}}</p></div>
                   <div class="text-center"><p style="font-size:90%;">(Name)</p></div>
-                  <div class="row"ng-disabled="!tmpId" style="margin-right:0px;">
+                  <div class="row" ng-disabled="!tmpId" style="margin-right:0px;">
                     <div class="col-xs-4" style="padding-right:5px;"><p style="font-size:75%;"><em>For the month of</em></p></div>
                     <div class="col-xs-8" style="border-bottom: 1px solid; height: 20px;"><p class="small"> {{selectedDate.month}} {{selectedDate.year}}</p></div>
                   </div>
@@ -195,16 +195,36 @@
         <h4 class="modal-title">Edit Report Log</h4>
       </div>
       <div class="modal-body">
+
+        <div ng-show="isSecondaryPassword">
+          <p class="text-danger text-left"><b>Required</b>: Please enter <b>Secondary Password</b> to update this log.</p>
+          <div class="row">
+            <div class="col-xs-8 col-md-8 col-lg-8">
+              <input type="password" class="form-control" ng-model="secondaryPasswordCredential" placeholder="************">
+            </div>
+            <div class="col-xs-4 col-md-4 col-lg-4">
+              <button type="button" ng-click="authorizeSecondaryPassword()" class="btn btn-block btn-success fa fa-lock"> Authorize</button>
+            </div>
+          </div>
+          <br>
+          <div ng-show="secondaryPasswordResponse" class="alert alert-dismissable" ng-class="secondaryPasswordResponseClass">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{secondaryPasswordResponse}}
+          </div>
+
+        </div>
+        <hr>
+
         <h4><b>AM</b></h4><hr>
         <label>Arrival</label><br>
-        <input ng-model="newReportData.arrivalAM" /><br>
+        <input ng-disabled="disableEdit" ng-model="newReportData.arrivalAM" /><br>
         <label>Departure</label><br>
-        <input ng-model="newReportData.departureAM" /><br>
+        <input ng-disabled="disableEdit" ng-model="newReportData.departureAM" /><br>
         <hr><h4><b>PM</b></h4><hr>
         <label>Arrival</label><br>
-        <input ng-model="newReportData.arrivalPM" /><br>
+        <input ng-disabled="disableEdit" ng-model="newReportData.arrivalPM" /><br>
         <label>Departure</label><br>
-        <input ng-model="newReportData.departurePM" /><br>
+        <input ng-disabled="disableEdit" ng-model="newReportData.departurePM" /><br>
         <hr>
         <label>Extra Logs</label><br>
           <div ng-repeat="extraLog in newReportData.extraLogPool track by $index">
@@ -213,7 +233,7 @@
                 <label for="removeButton">{{extraLog}}</label>
               </div>
               <div class="col-xs-3 col-md-3 col-lg-3">
-                <button id="removeButton" ng-click="removeExtraLogs($index, newReportData)" type="button" class="btn btn-danger fa fa-times"></button>
+                <button id="removeButton" ng-disabled="disableEdit" ng-click="removeExtraLogs($index, newReportData)" type="button" class="btn btn-danger fa fa-times"></button>
               </div>
             </div>
 
@@ -221,7 +241,7 @@
           </div>
         <hr>
         <label>Total</label><br>
-        <input type="number" max="8" min="0" ng-model="newReportData.totalTime.hours" /> Hours <input type="number" min="0" max="59" ng-model="newReportData.totalTime.minutes" /> Minutes <br>
+        <input type="number" max="8" min="0" ng-disabled="disableEdit" ng-model="newReportData.totalTime.hours" /> Hours <input type="number" min="0" max="59" ng-disabled="disableEdit" ng-model="newReportData.totalTime.minutes" /> Minutes <br>
       </div>
       <div class="modal-footer">
         <div ng-show="deleteConfirmation">
@@ -230,8 +250,9 @@
           <button type="button" ng-click="cancelDelete()" class="btn btn-default">Cancel</button>
           <br><br>
         </div>
-        <button type="button" ng-show="showDeleteButton" ng-click="confirmDelete()" class="btn btn-danger">Delete</button>
-        <button type="button" ng-click="updateReportRow()" class="btn btn-primary" ng-show="newReportData.isValid" data-dismiss="modal">Save</button>
+
+        <button type="button" ng-disabled="disableEdit" ng-show="showDeleteButton" ng-click="confirmDelete()" class="btn btn-danger">Delete</button>
+        <button type="button" ng-disabled="disableEdit" ng-click="updateReportRow()" class="btn btn-primary" ng-show="newReportData.isValid" data-dismiss="modal">Save</button>
         <button type="button" ng-click="closeModal()" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

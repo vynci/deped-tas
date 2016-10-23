@@ -37,6 +37,20 @@ app.service('settingsService', function($q, $http) {
 		return def.promise;
 	}
 
+	var powerOff = function(userId) {
+		console.log('powering off');
+		var def = $q.defer();
+
+		$http.get("http://172.24.1.1:1337/device/power-off")
+		.success(function(data) {
+			def.resolve(data);
+		})
+		.error(function() {
+			def.reject("Failed to Power Off");
+		});
+		return def.promise;
+	}
+
 	var adminPasswordReset = function(userId) {
 		var def = $q.defer();
 
@@ -101,7 +115,8 @@ app.service('settingsService', function($q, $http) {
 		updateWifiCredentials : updateWifiCredentials,
 		updateSystemTime : updateSystemTime,
 		backup : backup,
-		adminPasswordReset : adminPasswordReset
+		adminPasswordReset : adminPasswordReset,
+		powerOff : powerOff
 	};
 
 });

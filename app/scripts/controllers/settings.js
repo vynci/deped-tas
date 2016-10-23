@@ -38,6 +38,8 @@ angular.module('sbAdminApp')
       }
     };
 
+    $scope.secondaryPassword = {};
+
     $scope.userTableFormat = {};
 
     getSettings();
@@ -79,11 +81,21 @@ angular.module('sbAdminApp')
         $scope.timeSettings.backupTime = $scope.settings.get('backupTime');
 
         $scope.isShowTotalTime = $scope.settings.get('isShowTotalTime');
+        $scope.isSecondaryPassword = $scope.settings.get('isSecondaryPassword');
+        $scope.secondaryPasswordFromDatabase = $scope.settings.get('secondaryPassword');
+
+        $scope.productIdFromDatabase = $scope.settings.get('productId');
 
         if($scope.isShowTotalTime){
           $scope.isShowTotalTime = "true";
         } else {
           $scope.isShowTotalTime = "false";
+        }
+
+        if($scope.isSecondaryPassword){
+          $scope.isSecondaryPassword = "true";
+        } else {
+          $scope.isSecondaryPassword = "false";
         }
 
         $scope.wifiCredentials = {
@@ -102,6 +114,35 @@ angular.module('sbAdminApp')
         console.log(percentComplete);
       });
     };
+
+    $scope.resetSecondaryPassword = function(){
+
+      if($scope.productIdCredentials === $scope.productIdFromDatabase){
+        var Settings = Parse.Object.extend("Settings");
+        var settings = new Settings();
+
+        settings.id = settingId;
+
+        settings.set("secondaryPassword", 'admin1');
+
+        settings.save(null, {
+          success: function(result) {
+            // Execute any logic that should take place after the object is saved.
+            $scope.passwordResetStatus = 'Successfully Reset to admin1';
+            alert('Successfully Reset to admin1');
+            console.log(result);
+          },
+          error: function(gameScore, error) {
+            // Execute any logic that should take place if the save fails.
+            // error is a Parse.Error with an error code and message.
+          }
+        });
+      }else{
+        $scope.passwordResetStatus = 'Invalid Product Id.';
+      }
+
+
+    }
 
     $scope.timeChange = function(){
       console.log($scope.timeSettings.currentTime);
@@ -311,6 +352,11 @@ angular.module('sbAdminApp')
           settings.set("isShowTotalTime", false);
         }
 
+        if($scope.isSecondaryPassword === "true"){
+          settings.set("isSecondaryPassword", true);
+        } else{
+          settings.set("isSecondaryPassword", false);
+        }
 
         var tmpHours = $scope.timeSettings.tmpLateTime.hours.toString();
         var tmpMinutes = $scope.timeSettings.tmpLateTime.minutes.toString();
@@ -323,6 +369,17 @@ angular.module('sbAdminApp')
 
         settings.set("lateTime", $scope.timeSettings.lateTime);
         settings.set("lateTimePM", $scope.timeSettings.lateTimePM);
+
+        if($scope.secondaryPassword.oldPassword === $scope.secondaryPasswordFromDatabase){
+          if($scope.secondaryPassword.newPassword === $scope.secondaryPassword.confirmPassword){
+            settings.set("secondaryPassword", $scope.secondaryPassword.confirmPassword);
+          }else{
+            alert('New Password and Confirmation does not match.');
+          }
+        } else {
+          alert('Old Secondary Password Invalid.');
+        }
+
 
         var cutoffTime = $scope.timeSettings.cutoffTime.hours + $scope.timeSettings.cutoffTime.minutes / 100;
 
@@ -396,6 +453,22 @@ angular.module('sbAdminApp')
         $state.go('login');
       }, 3000);
       settingsService.reboot()
+      .then(function(results) {
+        // Handle the result
+      }, function(err) {
+        // Error occurred
+        console.log(err);
+        $window.location.reload();
+      }, function(percentComplete) {
+        console.log(percentComplete);
+      });
+    }
+
+    $scope.powerOffDevice = function(){
+      $timeout(function() {
+        $state.go('login');
+      }, 3000);
+      settingsService.powerOff()
       .then(function(results) {
         // Handle the result
       }, function(err) {
