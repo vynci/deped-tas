@@ -49,7 +49,7 @@
 										<!-- <td>{{row.attributes.idNumber}}</td> -->
 										<td>{{row.attributes.firstName}} {{row.attributes.lastName}}</td>
 										<td>{{row.attributes.position}}</td>
-										<td>{{row.attributes.time}}</td>
+										<td ng-class="extraLogCheck(row.attributes.time)">{{row.attributes.time}}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -79,7 +79,7 @@
 										<!-- <td>{{row.attributes.idNumber}}</td> -->
 										<td>{{row.attributes.firstName}} {{row.attributes.lastName}}</td>
 										<td>{{row.attributes.position}}</td>
-										<td>{{row.attributes.time}}</td>
+										<td ng-class="extraLogCheck(row.attributes.time)">{{row.attributes.time}}</td>
 									</tr>
 								</tbody>
 							</table>

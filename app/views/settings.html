@@ -10,7 +10,7 @@
     <button type="button" class="btn btn-warning btn-block" ng-click="rebootDevice()" data-toggle="modal" data-target="#rebootModal">Reboot</button>
   </div>
   <div class="col-xs-2">
-    <button type="button" class="btn btn-danger btn-block" ng-click="powerOffDevice()" data-toggle="modal" data-target="#rebootModal">Power Off</button>
+    <button type="button" class="btn btn-danger btn-block" ng-click="powerOffDevice()" data-toggle="modal">Power Off</button>
   </div>
 
 </div>
@@ -93,33 +93,6 @@
         <div class="form-group">
           <label for="exampleInputName2">In Charge: </label>
           <input type="text" class="form-control" ng-model="inCharge" placeholder="Ex: Admin Name">
-        </div>
-
-        <div class="form-group">
-          <label for="exampleInputName2">Enable Secondary Password (Edit Reports): </label>
-          <select class="form-control" ng-model="isSecondaryPassword">
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
-        </div>
-
-        <div class="form-group" ng-show="isSecondaryPassword">
-          <label for="exampleInputName2">Old Secondary Password</label>
-          <input type="password" class="form-control" ng-model="secondaryPassword.oldPassword" placeholder="************">
-        </div>
-
-        <div class="form-group" ng-show="isSecondaryPassword">
-          <label for="exampleInputName2">New Secondary Password</label>
-          <input type="password" class="form-control" ng-model="secondaryPassword.newPassword" placeholder="************">
-        </div>
-
-        <div class="form-group" ng-show="isSecondaryPassword">
-          <label for="exampleInputName2">Confirm Secondary Password</label>
-          <input type="password" class="form-control" ng-model="secondaryPassword.confirmPassword" placeholder="************">
-        </div>
-
-        <div class="form-group" ng-show="isSecondaryPassword">
-          <button type="button" class="btn btn-warning btn-block btn-outline" ng-click="passwordResetStatus = ''; productIdCredentials = '';" data-toggle="modal" data-target="#forgotSecondaryPasswordModal">Forgot Secondary Password</button>
         </div>
 
         <hr>

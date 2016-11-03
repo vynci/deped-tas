@@ -6,6 +6,10 @@ body {
 /*.small{
   font-size: 75% !important;
 }*/
+.log-bold{
+  font-weight: bold;
+  color : #d9534f;
+}
 
 .logBlockGood {
   background : none;

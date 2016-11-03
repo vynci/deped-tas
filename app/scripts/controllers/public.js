@@ -41,6 +41,15 @@ angular.module('sbAdminApp')
       $state.go('login');
     }
 
+    $scope.extraLogCheck = function(time){
+      if(stringContains(time, 'Extra')){
+        return 'log-bold';
+      }else{
+        return '';
+      }
+    }
+    
+
     function getSettings(){
       settingsService.getSetting()
       .then(function(results) {

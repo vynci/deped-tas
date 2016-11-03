@@ -211,6 +211,14 @@ angular.module('sbAdminApp')
 
     }
 
+    $scope.extraLogCheck = function(time){
+      if(stringContains(time, 'Extra')){
+        return 'log-bold';
+      }else{
+        return '';
+      }
+    }    
+
     socket.on('fromPublicServer', function(data){
       //console.log(data);
       if(typeof data === 'object'){
