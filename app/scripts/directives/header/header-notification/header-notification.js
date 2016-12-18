@@ -41,7 +41,7 @@ angular.module('sbAdminApp')
 					$scope.reboot = function(){
 						console.log('reboot!');
 						$timeout(function() {
-							$state.go('login');
+							$state.go('login', {}, {reload: true});
 						}, 3000);
 						settingsService.reboot()
 						.then(function(results) {

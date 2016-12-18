@@ -1,4 +1,4 @@
-app.service('settingsService', function($q, $http) {
+app.service('settingsService', function($q, $http, $timeout, $window) {
 
 
 	var getSetting = function(id){
@@ -34,6 +34,11 @@ app.service('settingsService', function($q, $http) {
 		.error(function() {
 			def.reject("Failed to Reboot");
 		});
+
+		$timeout(function() {
+			$window.location.reload();
+		}, 3500);
+
 		return def.promise;
 	}
 
@@ -48,6 +53,11 @@ app.service('settingsService', function($q, $http) {
 		.error(function() {
 			def.reject("Failed to Power Off");
 		});
+
+		$timeout(function() {
+			$window.location.reload();
+		}, 3500);
+
 		return def.promise;
 	}
 

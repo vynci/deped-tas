@@ -288,6 +288,9 @@ angular.module('sbAdminApp')
 
     $scope.convertDate = function(date){
       //
+      date = new Date(date);
+      date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+
       var tmp = date.toString();
       tmp = tmp.split(' ');
 

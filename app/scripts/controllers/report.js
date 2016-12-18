@@ -404,6 +404,10 @@ angular.module('sbAdminApp')
           }
 
           var tmpDay = value.get('periodDate');
+
+          tmpDay = new Date(tmpDay);
+          tmpDay.setMinutes(tmpDay.getMinutes() + tmpDay.getTimezoneOffset());
+
           tmpDay = tmpDay.getDate();
 
           regularDays[tmpDay - 1] = value;
@@ -477,6 +481,15 @@ angular.module('sbAdminApp')
       var min = new Date($scope.selectedDate.month + " 1 " + $scope.selectedDate.year);
       var max = new Date($scope.mothSelectNames[tmp + 1] + " 1 " + $scope.selectedDate.year);
       console.log($scope.selectedDate.month);
+
+      if($scope.selectedDate.month === 'December'){
+        var tmpYear = $scope.selectedDate.year;
+        tmpYear = parseInt(tmpYear);
+        tmpYear = tmpYear + 1;
+
+        max = new Date($scope.mothSelectNames[0] + " 1 " + tmpYear);
+      }
+
       console.log(min);
       console.log(max);
 
@@ -550,7 +563,7 @@ angular.module('sbAdminApp')
     $scope.printDiv = function(divName) {
 
       var printContents = document.getElementById(divName).innerHTML;
-      var popupWin = window.open('', '_blank', 'width=1024,height=768');
+      var popupWin = window.open('', '_blank', 'width=760,height=768');
       var test = '<div class="container"><div class="row"><div class="col-xs-6" style="padding-left:0px; padding-right:40px;">'+ printContents +'</div><div class="col-xs-6" style="padding-left:40px; padding-right:0px;">' + printContents + '</div></div></div>';
       popupWin.document.open();
       popupWin.document.write('<html><head><link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="styles/main.css"><link rel="stylesheet" href="styles/sb-admin-2.css"></head><body onload="window.print()">'+ test +'</body></html>');

@@ -141,6 +141,8 @@ angular.module('sbAdminApp')
               // error is a Parse.Error with an error code and message.
             }
           });
+        },function(err){
+          alert('Picture should not exceed 2mb, Please Try again.');
         });
 
       }
@@ -176,6 +178,8 @@ angular.module('sbAdminApp')
               // error is a Parse.Error with an error code and message.
             }
           });
+        },function(err){
+          alert('Picture should not exceed 2mb, Please Try again.');
         });
 
       }
@@ -211,6 +215,8 @@ angular.module('sbAdminApp')
               // error is a Parse.Error with an error code and message.
             }
           });
+        },function(err){
+          alert('Picture should not exceed 2mb, Please Try again.');
         });
 
       }
@@ -241,10 +247,13 @@ angular.module('sbAdminApp')
               console.log(result);
             },
             error: function(gameScore, error) {
+              console.log(error);
               // Execute any logic that should take place if the save fails.
               // error is a Parse.Error with an error code and message.
             }
           });
+        },function(err){
+          alert('Picture should not exceed 2mb, Please Try again.');
         });
 
       }
@@ -397,7 +406,7 @@ angular.module('sbAdminApp')
 
     $scope.rebootDevice = function(){
       $timeout(function() {
-        $state.go('login');
+        $state.go('login', {}, {reload: true});
       }, 3000);
       settingsService.reboot()
       .then(function(results) {
